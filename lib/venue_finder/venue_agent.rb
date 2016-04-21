@@ -1,3 +1,13 @@
+
+require 'vcr'
+
+VCR.configure do |c|
+  c.cassette_library_dir = 'spec/fixtures/vcr_cassettes'
+  c.hook_into :webmock # or :fakeweb
+  c.allow_http_connections_when_no_cassette = false #Use when running with webkit
+  #c.ignore_localhost = false
+end
+
 module VenueFinder
   # An agent that searches for venues and keep favourties.
   class VenueAgent
@@ -5,43 +15,28 @@ module VenueFinder
     # Initialize dependencies.
     # @param foursquare_proxy The Foursquare Proxy to retrieve the venues from.
     # @param favourites_store The store to save/retrieve the favourites list.
-    def initialize(foursquare_proxy, favourites_store)
+    def initialize(foursquare_proxy)
       @foursquare_proxy = foursquare_proxy
-      @favourites_store = favourites_store
     end
 
     # Find venues based on a query string and displays favourite results if present.
     def find(user_id, query)
-      favourites = @favourites_store.where(user_id)
-      venues = @foursquare_proxy.search_venues(query)
-      parse_results(venues, favourites)
-    end
-
-    # Saves a favourite for a given user.
-    def add_favourite(user_id, favourite_name)
-      @favourites_store.create(user_id, favourite_name)
-    end
-
-    # Removes a favourite for a given user.
-    def remove_favourite(user_id, favourite_name)
-     @favourites_store.destroy(user_id, favourite_name)
-    end
-
-    # Retrieves the list of favourites.
-    def list_favourites(user_id)
-     @favourites_store.where(user_id)
+      venues = nil
+      VCR.use_cassette('video', :match_requests_on => [:method]) do
+        venues = @foursquare_proxy.search_venues(query)
+      end
+      parse_results(venues)
     end
 
     private
 
-    def parse_results(venues, favourites)
+    def parse_results(venues)
       venues.map do |venue|
         {
-          "venue_id" => venue["id"],
-          "name" => venue["name"],
-          "favourite" => favourites.has_key?(venue["id"]),
-          "canonical_url" => venue["canonicalUrl"],
-          "location" => venue["location"]
+          :venue_id => venue["id"],
+          :name => venue["name"],
+          :canonical_url => venue["canonicalUrl"],
+          :location => venue["location"]
         }
       end
     end

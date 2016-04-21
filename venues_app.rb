@@ -30,24 +30,11 @@ end
 
 post '/' do
   @venues = VenueFinder.instance.find current_user, params[:query] if params[:query]
+  @venues.each do |venue|
+    puts venue[:name]
+    puts address(venue[:location])
+  end
   erb :index
-end
-
-post '/favourite' do
-  return status 500 unless params[:venue_id]
-  VenueFinder.instance.add_favourite current_user, params
-  status 200
-end
-
-delete '/favourite' do
-  return status 500 unless params[:venue_id]
-  VenueFinder.instance.remove_favourite current_user, params
-  status 200
-end
-
-get '/list_favourites' do
-  @favourites = VenueFinder.instance.list_favourites(current_user).values
-  erb :favourites
 end
 
 def current_user
