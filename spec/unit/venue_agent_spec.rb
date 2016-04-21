@@ -96,15 +96,4 @@ describe VenueFinder::VenueAgent do
     @store = double('favourites_store')
     @source.stub(:search_venues).with('video').and_return(source_response)
   end
-
-  describe "#find" do
-    context "when there is no previous favourites" do
-      it "should return a list of venues" do
-        results = [venue_video_city, venue_music_and_video_exchange]
-        @store.stub(:where).with('user_id').and_return({})
-        agent = VenueFinder::VenueAgent.new(@source, @store)
-        expect(agent.find('user_id', 'video')).to eq results
-      end
-    end
-  end
 end
