@@ -8,6 +8,19 @@ This is a code kata to explore the interaction with third-party APIs with good t
 
 Build a search interface that finds venues (from Foursquare).
 
+Run application with:
+
+    ruby venues_app.rb
+Run tests with:
+
+    bundle exec rspec
+
+Deploy in production using Heroku with:
+
+    heroku apps:create --region eu
+    git push heroku master
+    heroku open
+
 # Special Status for Progscon.co.uk
 
 The endpoint has been mocked and always returns pre-recorded data for the search keyword 'video'.
