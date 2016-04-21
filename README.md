@@ -10,8 +10,9 @@ Build a search interface that finds venues (from Foursquare).
 
 Run application with:
 
+    ruby -v
     bundle
-    ruby venues_app.rb
+    ruby app/controllers/venues_app.rb
 
 Run tests with:
 
