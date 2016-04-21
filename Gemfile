@@ -2,8 +2,9 @@ source "https://rubygems.org"
 
 ruby '2.0.0'
 
-gem "foursquare2"
-gem "sinatra"
+gem 'foursquare2'
+gem 'sinatra'
+gem 'webmock'
 gem 'vcr'
 
 group :development, :test do
