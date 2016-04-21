@@ -1,4 +1,4 @@
-$: << File.join(File.dirname(__FILE__), ".", "lib")
+$: << File.join(File.dirname(__FILE__), "..", "models")
 
 require 'sinatra'
 require 'venue_finder'
@@ -6,6 +6,8 @@ require 'awesome_print'
 require 'pry'
 
 enable :sessions
+set :views, "#{settings.root}/../views"
+set :public_folder, "#{settings.root}/../../public"
 
 helpers do
   include Rack::Utils

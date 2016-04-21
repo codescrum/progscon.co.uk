@@ -7,7 +7,9 @@ require 'capybara'
 require 'capybara/rspec' #support for feature/scenario
 require 'capybara-webkit'
 
-$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "lib")  <<
+$LOAD_PATH << File.join(File.dirname(__FILE__), "..", "app/models")  <<
+              File.join(File.dirname(__FILE__), "..", "app/views") <<
+              File.join(File.dirname(__FILE__), "..", "app/controllers") <<
               File.join(File.dirname(__FILE__), "..", "spec") <<
               File.join(File.dirname(__FILE__), "..", ".")
 

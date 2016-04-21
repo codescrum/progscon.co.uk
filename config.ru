@@ -1,2 +1,2 @@
-require './venues_app.rb'
+require './app/controllers/venues_app.rb'
 run Sinatra::Application
